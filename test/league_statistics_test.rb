@@ -8,6 +8,7 @@ require 'pry'
 class LeagueStatisticsTest < Minitest::Test
 
   def test_it_exists
+    league_statistics = LeagueStatistics.new
     assert_instance_of LeagueStatistics, league_statistics
   end
 
