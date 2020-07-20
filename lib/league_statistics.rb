@@ -7,7 +7,11 @@ class LeagueStatistics
     @team_hash = team_hash
   end
 
-  def teams_count 
+  def team_data_size
+    @team_hash["team_id"].size
+  end
+
+  def teams_count
 
   end
 end
