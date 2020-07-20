@@ -1,5 +1,5 @@
 class LeagueStatistics
 
-  def initialize
+  def initialize(game_hash, team_hash)
   end
 end

@@ -25,13 +25,11 @@ class LeagueStatisticsTest < Minitest::Test
     @game_stats.create_stat_hash_keys(game_array)
     @team_stats.create_stat_hash_keys(team_array)
 
-    @league_statistics1 = LeagueStatistics.new(@game_stats.stat_hash)
-    @league_statistics2 = LeagueStatistics.new(@team_stats.stat_hash)
+    @league_statistics = LeagueStatistics.new(@game_stats.stat_hash, @team_stats.stat_hash)
   end
 
   def test_it_exists
-    assert_instance_of LeagueStatistics, @league_statistics1
-    assert_instance_of LeagueStatistics, @league_statistics2
+    assert_instance_of LeagueStatistics, @league_statistics
   end
 
   #def test_it_has_attributes
