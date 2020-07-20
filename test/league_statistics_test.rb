@@ -38,4 +38,9 @@ class LeagueStatisticsTest < Minitest::Test
     assert_equal [], @league_statistics.team_hash #dummy data call
   end
 
+  def test_highest_average_scoring_visitor
+
+    assert_equal "team_name", @league_statistics.highest_average_scoring_visitor
+  end
+
 end
