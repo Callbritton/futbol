@@ -47,7 +47,7 @@ class LeagueStatisticsTest < Minitest::Test
   def test_hash_creation_by_index
     expected = {"3"=>[0, 1, 4]}
 
-    assert_equal expected, @league_statistics.hash_creation_by_index(@game_hash, "away_team_id")
+    assert_equal expected, @league_statistics.hash_creation_by_index.slice("3")
   end
 
 end
