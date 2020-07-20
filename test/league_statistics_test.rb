@@ -38,4 +38,13 @@ class LeagueStatisticsTest < Minitest::Test
     assert_equal [], @league_statistics.team_hash #dummy data call
   end
 
+  def test_it_can_count_total_number_of_teams_in_data
+
+    assert_equal 19, @league_statistics.teams_count
+  end
+
+  def test_team_data_size
+    assert_equal 19, @league_statistics.team_data_size
+  end
+
 end
