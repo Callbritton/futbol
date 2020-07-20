@@ -39,7 +39,7 @@ class LeagueStatisticsTest < Minitest::Test
   end
 
   def test_it_can_count_total_number_of_teams_in_data
-    skip
+
     assert_equal 19, @league_statistics.teams_count
   end
 
