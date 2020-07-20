@@ -39,8 +39,15 @@ class LeagueStatisticsTest < Minitest::Test
   end
 
   def test_highest_average_scoring_visitor
+    skip
 
     assert_equal "team_name", @league_statistics.highest_average_scoring_visitor
+  end
+
+  def test_hash_creation_by_index
+    expected = {"3"=>[0, 1, 4]}
+
+    assert_equal expected, @league_statistics.hash_creation_by_index(@game_hash, "away_team_id")
   end
 
 end
