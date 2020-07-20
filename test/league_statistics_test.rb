@@ -43,7 +43,7 @@ class LeagueStatisticsTest < Minitest::Test
   end
 
   def test_data_size
-    
+    assert_equal 19, @league_statistics.data_size
   end
 
 end
