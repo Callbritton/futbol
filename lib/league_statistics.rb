@@ -6,4 +6,8 @@ class LeagueStatistics
     @game_hash = game_hash
     @team_hash = team_hash
   end
+
+  def highest_average_scoring_visitor
+
+  end
 end
