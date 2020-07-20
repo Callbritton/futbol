@@ -32,7 +32,10 @@ class LeagueStatisticsTest < Minitest::Test
     assert_instance_of LeagueStatistics, @league_statistics
   end
 
-  #def test_it_has_attributes
-  #end
+  def test_it_has_attributes
+    skip
+    assert_equal [], @league_statistics.game_hash #dummy data call
+    assert_equal [], @league_statistics.team_hash #dummy data call
+  end
 
 end
