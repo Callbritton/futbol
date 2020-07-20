@@ -6,4 +6,8 @@ class LeagueStatistics
     @game_hash = game_hash
     @team_hash = team_hash
   end
+
+  def teams_count 
+
+  end
 end

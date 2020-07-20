@@ -5,7 +5,7 @@ class GameStatistics
     @games_hash = games_hash
   end
 
-  def data_size
+  def data_size 
     @games_hash["game_id"].size
   end
 

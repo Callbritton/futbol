@@ -42,4 +42,8 @@ class LeagueStatisticsTest < Minitest::Test
     assert_equal 19, @league_statistics.teams_count
   end
 
+  def test_data_size
+    
+  end
+
 end
