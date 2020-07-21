@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/game_data'
+require './lib/team_data'
 require 'csv'
 
-class GameDataTest < Minitest::Test
+class TeamDataTest < Minitest::Test
 
   def setup
     game_path = './data/dummy_file_games.csv'
@@ -16,25 +16,25 @@ class GameDataTest < Minitest::Test
       game_teams: game_teams_path
     }
 
-    @game_data = GameData.new
-    @table = CSV.parse(File.read('./data/dummy_file_games.csv'), headers: true)
+    @table = CSV.parse(File.read(@locations[:teams]), headers: true)
   end
 
   def test_it_exists
+    team_data = TeamData.new
 
-    assert_instance_of GameData, @game_data
+    assert_instance_of TeamData, team_data
   end
 
   def test_it_can_create_many_objects
     line_index = 0
-    all_games = []
+    all_team_data = []
     @table.size.times do
-      game_data = GameData.new
-      game_data.create_attributes(@table, line_index)
-      all_games << game_data
+      team_data = TeamData.new
+      team_data.create_attributes(@table, line_index)
+      all_team_data << team_data
       line_index += 1
     end
-    assert_equal 7441, all_games.size
+    assert_equal 19, all_team_data.size
   end
 
 end
