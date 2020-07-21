@@ -1,9 +1,11 @@
 class LeagueStatistics
 
-  attr_reader :all_data
+  attr_reader :game_data, :team_data, :game_team_data
 
-  def initialize(all_data)
-    @all_data = all_data
+  def initialize(@game_data, @team_data, @game_team_data)
+    @game_data = game_data
+    @team_data = team_data
+    @game_team_data = game_team_data
   end
 
   # def highest_average_scoring_visitor

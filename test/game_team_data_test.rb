@@ -16,7 +16,7 @@ class GameTeamDataTest < Minitest::Test
       game_teams: game_teams_path
     }
 
-    @table = CSV.parse(File.read('./data/dummy_file_games.csv'), headers: true)
+    @table = CSV.parse(File.read('./data/dummy_file_game_teams.csv'), headers: true)
   end
 
   def test_it_exists
