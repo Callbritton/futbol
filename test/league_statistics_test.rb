@@ -50,9 +50,9 @@ class LeagueStatisticsTest < Minitest::Test
     assert_equal expected, @league_statistics.hash_creation_by_index(@league_statistics.game_hash, "away_team_id").slice("3")
   end
 
-  def test_pull_goals_by_index
+  def test_pull_goals_by_team_id
 
-    assert_equal [2, 2, 1], @league_statistics.pull_goals_by_index
+    assert_equal ["2", "2", "1"], @league_statistics.pull_goals_by_team_id(@league_statistics.game_hash, "away_team_id")
   end
 
 end
