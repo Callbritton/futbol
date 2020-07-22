@@ -1,11 +1,11 @@
 class TeamData
-  attr_reader :team_id, :franchiseId, :teamName, :abbreviation,
+  attr_reader :team_id, :franchise_id, :team_name, :abbreviation,
   :stadium, :link
 
   def initialize()
     @team_id = team_id
-    @franchiseId = franchiseId
-    @teamName = teamName
+    @franchise_id = franchise_id
+    @team_name = team_name
     @abbreviation = abbreviation
     @stadium = stadium
     @link = link
@@ -15,9 +15,9 @@ class TeamData
     index = 0
       @team_id = table[line_index][index]
       index += 1
-      @franchiseId = table[line_index][index]
+      @franchise_id = table[line_index][index]
       index += 1
-      @teamName = table[line_index][index]
+      @team_name = table[line_index][index]
       index += 1
       @abbreviation = table[line_index][index]
       index += 1

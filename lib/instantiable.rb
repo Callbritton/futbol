@@ -4,11 +4,11 @@ require './lib/game_team_data'
 require 'csv'
 module Instantiable
   def create_instances_of_game
-    table = CSV.parse(File.read('./data/dummy_file_games.csv'), headers: true)
+    table = CSV.parse(File.read('./data/dummy_file_games.csv'), headers: true, converters: :numeric)
     line_index = 0
     all_game_data = []
     table.size.times do
-      game_data = TeamData.new
+      game_data = GameData.new
       game_data.create_attributes(table, line_index)
       all_game_data << game_data
       line_index += 1
@@ -17,7 +17,7 @@ module Instantiable
   end
 
   def create_instances_of_team
-    table = CSV.parse(File.read('./data/dummy_file_teams.csv'), headers: true)
+    table = CSV.parse(File.read('./data/dummy_file_teams.csv'), headers: true, converters: :numeric)
     line_index = 0
     all_team_data = []
     table.size.times do
@@ -30,11 +30,11 @@ module Instantiable
   end
 
   def create_instances_of_team_game
-    table = CSV.parse(File.read('./data/dummy_file_game_teams.csv'), headers: true)
+    table = CSV.parse(File.read('./data/dummy_file_game_teams.csv'), headers: true, converters: :numeric)
     line_index = 0
     all_game_team_data = []
     table.size.times do
-      game_team_data = TeamData.new
+      game_team_data = GameTeamData.new
       game_team_data.create_attributes(table, line_index)
       all_game_team_data << game_team_data
       line_index += 1

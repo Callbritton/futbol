@@ -8,19 +8,19 @@ class ClassTest < Minitest::Test
 
   def test_instances_of_game
     game_data = Instantiable.create_instances_of_game
-
+require "pry"; binding.pry
     assert_equal 19, game_data.size
   end
 
   def test_instances_of_team
     team_data = Instantiable.create_instances_of_team
-
+require "pry"; binding.pry
     assert_equal 19, team_data.size
   end
 
   def test_instances_of_team_game
     team_game_data = Instantiable.create_instances_of_team_game
-
+require "pry"; binding.pry
     assert_equal 19, team_game_data.size
   end
 end
