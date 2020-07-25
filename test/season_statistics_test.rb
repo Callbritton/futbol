@@ -49,4 +49,17 @@ class SeasonStatisticsTest < Minitest::Test
 
     assert_equal expected, @season_statistics.get_team_name_by_team_id
   end
+
+  def test_get_total_wins_by_team_id
+    expected = {
+                6=>9,
+                16=>3,
+                17=>4,
+                8=>1, 
+                9=>1
+              }
+
+
+    assert_equal expected, @season_statistics.get_total_wins_by_team_id
+  end
 end
