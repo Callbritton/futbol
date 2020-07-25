@@ -45,19 +45,19 @@ class GameStatistics
   def percentage_of_home_wins
     home_wins = @game_outcomes[:home_games_won]
     decimal_home = home_wins.to_f / @total_games
-    (decimal_home * 100).round(2)
+    decimal_home.round(2)
   end
 
   def percentage_of_visitor_wins
     visitor_wins = @game_outcomes[:visitor_games_won]
     decimal_visitor = visitor_wins.to_f / @total_games
-    (decimal_visitor * 100).round(2)
+    decimal_visitor.round(2)
   end
 
   def percentage_of_ties
     total_ties = @game_outcomes[:ties]
     decimal_ties = total_ties.to_f / @total_games
-    (decimal_ties * 100).round(2)
+    decimal_ties.round(2)
   end
 
   def count_of_games_by_season
