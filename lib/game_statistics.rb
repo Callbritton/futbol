@@ -18,7 +18,7 @@ class GameStatistics
 
   def total_score
     all_games.map do |games|
-      games.home_goals + games.away_goals
+      games.home_goals.to_i + games.away_goals.to_i
     end
   end
 
@@ -79,9 +79,9 @@ class GameStatistics
   def total_goals_per_season
     all_games.each do |game|
       if @total_goals_per_season.include?(game.season)
-        @total_goals_per_season[game.season] += game.away_goals + game.home_goals
+        @total_goals_per_season[game.season] += game.away_goals.to_i + game.home_goals.to_i
       else
-        @total_goals_per_season[game.season] += game.away_goals + game.home_goals
+        @total_goals_per_season[game.season] += game.away_goals.to_i + game.home_goals.to_i
       end
     end
     @total_goals_per_season

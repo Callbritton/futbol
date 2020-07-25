@@ -32,7 +32,7 @@ class GameStatisticsTest < MiniTest::Test
   end
 
   def test_it_can_count_games_by_season
-    expected = {20122013=>19}
+    expected = {'20122013'=>19}
     assert_equal expected, @game_statistics.count_of_games_by_season
   end
 
@@ -41,7 +41,7 @@ class GameStatisticsTest < MiniTest::Test
   end
 
   def test_it_can_calc_avg_goals_by_season
-    expected = {20122013=>3.68}
+    expected = {'20122013'=>3.68}
     assert_equal expected, @game_statistics.average_goals_per_season
   end
 end
