@@ -1,19 +1,26 @@
 require_relative "game_team_data"
 require_relative "game_data"
 require_relative "team_data"
-# Not sure which files we will really need yet
 
 class SeasonStatistics
+
+  attr_reader :coach_by_team_id,
+              :team_name_by_team_id,
+              :total_wins_by_team_id,
+              :tackles_by_team_id
+
   def initialize()
     @coach_by_team_id = Hash.new{}
     @team_name_by_team_id = Hash.new{}
     @total_wins_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
     @tackles_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-    # These set instance variables equal to all_creation
-    # So we dont have to call the method
     @all_games = all_games_creation
     @all_game_teams = all_game_teams_creation
     @all_teams = all_teams_creation
+    get_coach_by_team_id
+    get_team_name_by_team_id
+    get_total_wins_by_team_id
+    get_tackles_by_team_id
   end
 
   def all_games_creation
