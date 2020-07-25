@@ -39,14 +39,12 @@ class SeasonStatistics
     @all_game_teams.each do |game_team|
       @coach_by_team_id[game_team.team_id] = game_team.head_coach
     end
-    @coach_by_team_id
   end
 
   def get_team_name_by_team_id
     @all_teams.each do |team|
       @team_name_by_team_id[team.team_id] = team.team_name
     end
-    @team_name_by_team_id
   end
 
   def get_total_wins_by_team_id
@@ -57,14 +55,12 @@ class SeasonStatistics
         @total_wins_by_team_id[game.away_team_id] += 1
       end
     end
-      @total_wins_by_team_id
   end
 
   def get_tackles_by_team_id
     @all_game_teams.each do |game_teams|
       @tackles_by_team_id[game_teams.team_id] += game_teams.tackles
     end
-    @tackles_by_team_id
   end
 
   def winningest_coach

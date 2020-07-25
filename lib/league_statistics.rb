@@ -41,7 +41,6 @@ class LeagueStatistics
     @all_teams.each do |team|
       @team_name_by_id[team.team_id] = team.team_name
     end
-    @team_name_by_id
   end
 
   def best_offense
@@ -58,21 +57,18 @@ class LeagueStatistics
     @goals_by_id.each do |team_id, goal|
       @average_goals_by_id[team_id] = (goal.to_f / @games_played_by_id[team_id]).round(2)
     end
-    @average_goals_by_id
   end
 
   def get_goals_by_id
     @all_game_teams.each do |game_team|
       @goals_by_id[game_team.team_id] += game_team.goals
     end
-    @goals_by_id
   end
 
   def get_games_by_id
     @all_game_teams.each do |game_team|
       @games_played_by_id[game_team.team_id] += 1
     end
-    @games_played_by_id
   end
 
   def get_goals_by_away_id
@@ -81,7 +77,6 @@ class LeagueStatistics
         @goals_by_away_id[game_team.team_id] += game_team.goals
       end
     end
-    @goals_by_away_id
   end
 
   def get_goals_by_home_id
@@ -90,7 +85,6 @@ class LeagueStatistics
         @goals_by_home_id[game_team.team_id] += game_team.goals
       end
     end
-    @goals_by_home_id
   end
 
   def highest_scoring_visitor
