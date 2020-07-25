@@ -15,8 +15,8 @@ class GameTeamDataTest < Minitest::Test
 
     assert_equal "away", game_team_data[0].hoa
     assert_equal "John Tortorella", game_team_data[0].head_coach
-    assert_equal 8, game_team_data[0].shots
-    assert_equal 44, game_team_data[0].tackles
+    assert_equal "8", game_team_data[0].shots
+    assert_equal "44", game_team_data[0].tackles
   end
 
 end

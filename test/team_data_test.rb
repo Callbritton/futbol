@@ -12,7 +12,7 @@ class TeamDataTest < Minitest::Test
   def test_it_can_create_many_objects
     all_teams = TeamData.create_objects
 
-    assert_equal 1, all_teams[0].team_id
+    assert_equal "1", all_teams[0].team_id
     assert_equal "Atlanta United", all_teams[0].team_name
   end
 
