@@ -46,7 +46,8 @@ class LeagueStatisticTest < Minitest::Test
                 24=>"Real Salt Lake",
                 27=>"San Jose Earthquakes"
               }
-    assert_equal expected, @league_statistics.get_team_name_by_id
+              
+    assert_equal expected, @league_statistics.team_name_by_id
   end
 
   def test_goals_by_id
@@ -66,7 +67,7 @@ class LeagueStatisticTest < Minitest::Test
                 5=>4,
                 17=>1
               }
-    assert_equal expected, @league_statistics.games_by_id
+    assert_equal expected, @league_statistics.games_played_by_id
   end
 
   def test_average_goals_by_id
