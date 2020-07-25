@@ -8,36 +8,42 @@ class SeasonStatistics
     @coach_by_team_id = Hash.new{}
     @team_name_by_team_id = Hash.new{}
     @total_wins_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
+    @tackles_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
+    # These set instance variables equal to all_creation
+    # So we dont have to call the method
+    @all_games = all_games_creation
+    @all_game_teams = all_game_teams_creation
+    @all_teams = all_teams_creation
   end
 
-  def all_games
+  def all_games_creation
     GameData.create_objects
   end
 
-  def all_game_teams
+  def all_game_teams_creation
     GameTeamData.create_objects
   end
 
-  def all_teams
+  def all_teams_creation
     TeamData.create_objects
   end
 
   def get_coach_by_team_id
-    all_game_teams.each do |game_team|
+    @all_game_teams.each do |game_team|
       @coach_by_team_id[game_team.team_id] = game_team.head_coach
     end
     @coach_by_team_id
   end
 
   def get_team_name_by_team_id
-    all_teams.each do |team|
+    @all_teams.each do |team|
       @team_name_by_team_id[team.team_id] = team.team_name
     end
     @team_name_by_team_id
   end
 
   def get_total_wins_by_team_id
-    all_games.each do |game|
+    @all_games.each do |game|
       if game.home_goals > game.away_goals
         @total_wins_by_team_id[game.home_team_id] += 1
       elsif game.home_goals < game.away_goals
@@ -45,6 +51,13 @@ class SeasonStatistics
       end
     end
       @total_wins_by_team_id
+  end
+
+  def get_tackles_by_team_id
+    @all_game_teams.each do |game_teams|
+      @tackles_by_team_id[game_teams.team_id] += game_teams.tackles
+    end
+    @tackles_by_team_id
   end
 
   def winningest_coach
