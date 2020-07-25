@@ -22,7 +22,7 @@ class SeasonStatisticsTest < Minitest::Test
                 17=>"Mike Babcock"
               }
 
-    assert_equal expected, @season_statistics.get_coach_by_team_id
+    assert_equal expected, @season_statistics.coach_by_team_id
   end
 
   def test_get_team_name_by_team_id
@@ -48,7 +48,7 @@ class SeasonStatisticsTest < Minitest::Test
                 27=>"San Jose Earthquakes"
               }
 
-    assert_equal expected, @season_statistics.get_team_name_by_team_id
+    assert_equal expected, @season_statistics.team_name_by_team_id
   end
 
   def test_get_total_wins_by_team_id
@@ -61,7 +61,7 @@ class SeasonStatisticsTest < Minitest::Test
               }
 
 
-    assert_equal expected, @season_statistics.get_total_wins_by_team_id
+    assert_equal expected, @season_statistics.total_wins_by_team_id
   end
 
   def test_get_tackles_by_team_id
@@ -72,6 +72,6 @@ class SeasonStatisticsTest < Minitest::Test
                 17=>43
               }
 
-    assert_equal expected, @season_statistics.get_tackles_by_team_id
+    assert_equal expected, @season_statistics.tackles_by_team_id
   end
 end
