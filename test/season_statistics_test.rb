@@ -10,6 +10,7 @@ class SeasonStatisticsTest < Minitest::Test
   end
 
   def test_it_exists
+
     assert_instance_of SeasonStatistics, @season_statistics
   end
 
@@ -55,11 +56,22 @@ class SeasonStatisticsTest < Minitest::Test
                 6=>9,
                 16=>3,
                 17=>4,
-                8=>1, 
+                8=>1,
                 9=>1
               }
 
 
     assert_equal expected, @season_statistics.get_total_wins_by_team_id
+  end
+
+  def test_get_tackles_by_team_id
+    expected = {
+                3=>179,
+                6=>271,
+                5=>150,
+                17=>43
+              }
+
+    assert_equal expected, @season_statistics.get_tackles_by_team_id
   end
 end
