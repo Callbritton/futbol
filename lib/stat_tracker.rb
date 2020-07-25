@@ -1,6 +1,10 @@
-require_relative './lib/game_data'
-require_relative './lib/game_team_data'
-require_relative '.lib/team_data'
+require_relative './game_data'
+require_relative './game_team_data'
+require_relative './team_data'
+require_relative './game_statistics'
+require_relative './league_statistics'
+require_relative './season_statistics'
+require 'csv'
 
 class StatTracker
 
