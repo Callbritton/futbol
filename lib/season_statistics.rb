@@ -7,6 +7,7 @@ class SeasonStatistics
   def initialize()
     @coach_by_team_id = Hash.new{}
     @team_name_by_team_id = Hash.new{}
+    @total_wins_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
   end
 
   def all_games
@@ -35,8 +36,15 @@ class SeasonStatistics
     @team_name_by_team_id
   end
 
-  def get_coach_win_percentage
-
+  def get_total_wins_by_team_id
+    all_games.each do |game|
+      if game.home_goals > game.away_goals
+        @total_wins_by_team_id[game.home_team_id] += 1
+      elsif game.home_goals < game.away_goals
+        @total_wins_by_team_id[game.away_team_id] += 1
+      end
+    end
+      @total_wins_by_team_id
   end
 
   def winningest_coach
