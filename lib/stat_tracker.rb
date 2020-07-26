@@ -255,9 +255,7 @@ class StatTracker
   end
 
   def highest_scoring_visitor
-    require "pry"; binding.pry
     highest_scorer_away = @goals_by_away_id.invert.max[1]
-    require "pry"; binding.pry
     @team_name_by_id[highest_scorer_away]
   end
 

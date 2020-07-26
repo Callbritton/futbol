@@ -18,7 +18,7 @@ class GameData
     end
 
     def self.create_objects
-      table = CSV.parse(File.read('./data/dummy_file_games.csv'), headers: true)
+      table = CSV.parse(File.read('./data/games.csv'), headers: true)
       line_index = 0
       all_games = []
       table.size.times do
