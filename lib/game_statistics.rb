@@ -1,18 +1,15 @@
 require_relative "futbol_data"
+require_relative "futbol_creatable"
+include FutbolCreatable
 
 class GameStatistics < FutbolData
 
   attr_reader :all_games
 
   def initialize
-    @all_games = object_creation
+    @all_games = FutbolCreatable.object_creation("games")
     @total_games = @all_games.size
     @total_goals_per_season = Hash.new{ |hash, key| hash[key] = 0 }
-  end
-
-  def object_creation
-    game_array = FutbolData.new("games")
-    game_array.games
   end
 
   def total_score

@@ -1,44 +1,19 @@
 require_relative "futbol_data"
+require_relative "futbol_creatable"
+include FutbolCreatable
+require_relative "helpable"
+include Helpable
 
 class SeasonStatistics < FutbolData
 
   def initialize
-    @all_games       = object_creation_games
-    @all_teams       = object_creation_teams
-    @all_game_teams  = object_creation_game_teams
+    @all_games       = FutbolCreatable.object_creation("games")
+    @all_teams       = FutbolCreatable.object_creation("teams")
+    @all_game_teams  = FutbolCreatable.object_creation("game_teams")
     get_team_name_by_id
-    # @coach_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
     @by_season_game_objects = []
     @counter_wins_team_id = Hash.new{ |hash, key| hash[key] = 0 }
     @games_played_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-
-    #
-
-    # @goals_by_id_by_season = Hash.new{ |hash, key| hash[key] = 0 }
-    # @win_percentage = {}
-  end
-
-  def get_team_name_by_id
-    @team_name_by_id = Hash.new{}
-    @all_teams.each do |team|
-      @team_name_by_id[team["team_id"]] = team["teamName"]
-    end
-    @team_name_by_id
-  end
-
-  def object_creation_games
-    game_array = FutbolData.new("games")
-    game_array.games
-  end
-
-  def object_creation_teams
-    team_array = FutbolData.new("teams")
-    team_array.teams
-  end
-
-  def object_creation_game_teams
-    game_teams_array = FutbolData.new("game_teams")
-    game_teams_array.game_teams
   end
 
   def create_coach_by_team_id

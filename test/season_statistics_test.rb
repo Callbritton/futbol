@@ -20,7 +20,8 @@ class SeasonStatisticsTest < Minitest::Test
   end
 
   def test_it_can_print_worst_coach_by_season
-    assert_equal "Alain Vigneault", @season_statistics.worst_coach("20142015")
+    # assert_equal "Peter Laviolette", @season_statistics.worst_coach("20132014")
+    assert_equal "Craig MacTavish", @season_statistics.worst_coach("20142015")
   end
 
   def test_can_find_most_and_least_accurate_teams_by_season
