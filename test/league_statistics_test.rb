@@ -14,7 +14,7 @@ class LeagueStatisticTest < Minitest::Test
     assert_equal 32, @league_statistics.count_of_teams
   end
 
-  def test_find_best_
+  def test_find_best_offense
     assert_equal "Reign FC", @league_statistics.best_offense
   end
 
@@ -44,6 +44,16 @@ class LeagueStatisticTest < Minitest::Test
 
   def test_test_goals_by_home_id
     assert_equal 664, @league_statistics.goals_by_home_id["5"]
+  end
+
+  def test_it_can_calc_average_score_away
+    @league_statistics.stubs(:average_score_per_away_game_by_team_id).returns("Hash of avg away scores")
+    assert_equal "Hash of avg away scores", @league_statistics.average_score_per_away_game_by_team_id
+  end
+
+  def test_it_can_calc_average_score_home
+    @league_statistics.stubs(:average_score_per_home_game_by_team_id).returns("Hash of avg home scores")
+    assert_equal "Hash of avg home scores", @league_statistics.average_score_per_home_game_by_team_id
   end
 
   def test_highest_scoring_visitor
