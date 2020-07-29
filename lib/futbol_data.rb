@@ -10,7 +10,7 @@ class FutbolData
   end
 
   def create_objects
-    chosen_data_set # returns correct @data_location
+    chosen_data_set
     if @passed == 'teams'
       case_is_team
     elsif @passed == 'games'
@@ -60,7 +60,6 @@ class FutbolData
   end
 
   # Used in Numerous
-
   def collect_game_objects_by_team_id(passed_id)
     @by_team_id_game_objects = []
     @all_games.each do |game_object|
