@@ -21,7 +21,7 @@ class StatTracker < FutbolData
     StatTracker.new(locations)
   end
 
-  attr_reader :data #For testing. Eventually make a mock/stub so our test can pass without this
+  attr_reader :data
 
   def initialize(data)
     @data = data
@@ -30,12 +30,9 @@ class StatTracker < FutbolData
     @all_teams       = FutbolCreatable.object_creation("teams")
     @all_game_teams  = FutbolCreatable.object_creation("game_teams")
 # =====game_statistics=====
-    @all_games = FutbolCreatable.object_creation("games")
     @total_games = @all_games.size
     @total_goals_per_season = Hash.new{ |hash, key| hash[key] = 0 }
     # =====league_statistics=====
-    @all_teams       = FutbolCreatable.object_creation("teams")
-    @all_game_teams  = FutbolCreatable.object_creation("game_teams")
     @team_name_by_id = Hash.new{}
     @goals_by_id = Hash.new{ |hash, key| hash[key] = 0 }
     @games_played_by_id = Hash.new{ |hash, key| hash[key] = 0 }
