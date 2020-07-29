@@ -11,6 +11,7 @@ class TeamStatistics < FutbolData
     @all_teams       = FutbolCreatable.object_creation("teams")
     @all_game_teams  = FutbolCreatable.object_creation("game_teams")
     get_team_name_by_id
+    team_data_object_creation
   end
 
   def team_info(passed_id)
@@ -42,15 +43,7 @@ class TeamStatistics < FutbolData
     end
   end
 
-  def total_games_by_season_by_team_id
-    @total_games_by_season = Hash.new{ |hash, key| hash[key] = 0 }
-    @by_team_id_game_objects.each do |game|
-      @total_games_by_season[game["season"]] += 1
-    end
-  end
-
   def total_wins_by_season_by_team_id(passed_id)
-    @total_wins_by_season = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if helper_for_win_count(passed_id, game)
         @total_wins_by_season[game["season"]] += 1
@@ -71,7 +64,6 @@ class TeamStatistics < FutbolData
   end
 
   def win_percentage_by_season_by_team_id
-    @win_percentage_by_season = Hash.new
     @total_wins_by_season.each do |season, total_win|
       @win_percentage_by_season[season] = (total_win.to_f / @total_games_by_season[season]).round(2)
     end
@@ -95,7 +87,6 @@ class TeamStatistics < FutbolData
   end
 
   def sort_games_won_by_team_id(passed_id)
-    @games_won_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
         @games_won_by_team_id[game["away_team_id"]] += 1
@@ -148,7 +139,6 @@ class TeamStatistics < FutbolData
   end
 
   def games_played_by_opponent_by_team(passed_id)
-    @games_played_by_opponent = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"]
         @games_played_by_opponent[game["home_team_id"]] += 1
@@ -159,24 +149,12 @@ class TeamStatistics < FutbolData
   end
 
   def games_won_by_opponent_by_team(passed_id)
-    @games_won_by_opponent = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
         @games_won_by_opponent[game["home_team_id"]] += 1
       elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
         @games_won_by_opponent[game["away_team_id"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @games_won_by_opponent[game["home_team_id"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
-        @games_won_by_opponent[game["away_team_id"]] += 0
       end
-    end
-  end
-
-  def win_ratio_by_opponent_by_team
-    @win_ratio_by_opponent = Hash.new
-    @games_won_by_opponent.each do |opponent, wins_against_opp|
-      @win_ratio_by_opponent[opponent] = (wins_against_opp.to_f / @games_played_by_opponent[opponent]).round(2)
     end
   end
 
