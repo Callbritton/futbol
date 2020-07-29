@@ -14,35 +14,6 @@ class TeamStatistics < FutbolData
     team_data_object_creation
   end
 
-  def team_info(passed_id)
-    @team_info_by_id = Hash.new
-    @all_teams.each do |team|
-      if passed_id == team["team_id"]
-        assign_team_info(team)
-      end
-    end
-    @team_info_by_id
-  end
-
-  def assign_team_info(team)
-    @team_info_by_id["team_id"] = team["team_id"]
-    @team_info_by_id["franchise_id"] = team["franchiseId"]
-    @team_info_by_id["team_name"] = team["teamName"]
-    @team_info_by_id["abbreviation"] = team["abbreviation"]
-    @team_info_by_id["link"] = team["link"]
-  end
-
-  def collect_game_objects_by_team_id(passed_id)
-    @by_team_id_game_objects = []
-    @all_games.each do |game_object|
-      if game_object["home_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      elsif game_object["away_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      end
-    end
-  end
-
   def total_wins_by_season_by_team_id(passed_id)
     @by_team_id_game_objects.each do |game|
       if helper_for_win_count(passed_id, game)
