@@ -1,7 +1,3 @@
-# require "minitest/autorun"
-# require "minitest/pride"
-# require "./lib/league_statistics"
-# require 'mocha/minitest'
 require "./test/test_helper"
 
 class LeagueStatisticTest < Minitest::Test
