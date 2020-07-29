@@ -16,15 +16,19 @@ class TeamStatistics < FutbolData
   def team_info(passed_id)
     @team_info_by_id = Hash.new
     @all_teams.each do |team|
-      if passed_id == team["team_id"] # Remove  when spec harness info updates
-        @team_info_by_id["team_id"] = team["team_id"]
-        @team_info_by_id["franchise_id"] = team["franchiseId"]
-        @team_info_by_id["team_name"] = team["teamName"]
-        @team_info_by_id["abbreviation"] = team["abbreviation"]
-        @team_info_by_id["link"] = team["link"]
+      if passed_id == team["team_id"]
+        assign_team_info(team)
       end
     end
     @team_info_by_id
+  end
+
+  def assign_team_info(team)
+    @team_info_by_id["team_id"] = team["team_id"]
+    @team_info_by_id["franchise_id"] = team["franchiseId"]
+    @team_info_by_id["team_name"] = team["teamName"]
+    @team_info_by_id["abbreviation"] = team["abbreviation"]
+    @team_info_by_id["link"] = team["link"]
   end
 
   def collect_game_objects_by_team_id(passed_id)
@@ -48,16 +52,22 @@ class TeamStatistics < FutbolData
   def total_wins_by_season_by_team_id(passed_id)
     @total_wins_by_season = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
-      if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
+      if helper_for_win_count(passed_id, game)
         @total_wins_by_season[game["season"]] += 1
-      elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
-        @total_wins_by_season[game["season"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @total_wins_by_season[game["season"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
+      elsif helper_for_loss_count(passed_id, game)
         @total_wins_by_season[game["season"]] += 0
       end
     end
+  end
+
+  def helper_for_win_count(passed_id, game)
+    (passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]) ||
+    (passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"])
+  end
+
+  def helper_for_loss_count(passed_id, game)
+    (passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]) ||
+    (passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"])
   end
 
   def win_percentage_by_season_by_team_id
@@ -91,12 +101,15 @@ class TeamStatistics < FutbolData
         @games_won_by_team_id[game["away_team_id"]] += 1
       elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
         @games_won_by_team_id[game["home_team_id"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @games_won_by_team_id[game["away_team_id"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
-        @games_won_by_team_id[game["home_team_id"]] += 0
+      elsif helper_for_loss_count(passed_id, game)
+        helper_counter_for_loss(game)
       end
     end
+  end
+
+  def helper_counter_for_loss(game)
+    @games_won_by_team_id[game["away_team_id"]] += 0
+    @games_won_by_team_id[game["home_team_id"]] += 0
   end
 
   def average_win_suite(passed_id)
