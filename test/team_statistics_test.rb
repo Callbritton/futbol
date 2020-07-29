@@ -1,7 +1,8 @@
-require "minitest/autorun"
-require "minitest/pride"
-require "./lib/team_statistics"
-require 'mocha/minitest'
+# require "minitest/autorun"
+# require "minitest/pride"
+# require "./lib/team_statistics"
+# require 'mocha/minitest'
+require "./test/test_helper"
 
 class TeamStatisticsTest < Minitest::Test
 
