@@ -41,6 +41,7 @@ class GameStatistics < FutbolData
     @all_games.each do |games|
       tally_goals(games)
     end
+    @game_outcomes
   end
 
   def percentage_suite
