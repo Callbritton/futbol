@@ -9,16 +9,11 @@ class LeagueStatistics < FutbolData
   def initialize
     @all_teams       = FutbolCreatable.object_creation("teams")
     @all_game_teams  = FutbolCreatable.object_creation("game_teams")
-    @team_name_by_id = Hash.new{}
     @goals_by_id = Hash.new{ |hash, key| hash[key] = 0 }
     @games_played_by_id = Hash.new{ |hash, key| hash[key] = 0 }
     @average_goals_by_id = Hash.new{}
     @goals_by_away_id = Hash.new{ |hash, key| hash[key] = 0 }
     @goals_by_home_id = Hash.new{ |hash, key| hash[key] = 0 }
-  end
-
-  def count_of_teams
-    @all_teams.size
   end
 
   def offense_suite
@@ -36,11 +31,6 @@ class LeagueStatistics < FutbolData
     offense_suite
     worst_offense_id = @average_goals_by_id.invert.min[1]
     @team_name_by_id[worst_offense_id]
-  end
-
-  def by_id_suite
-    goals_by_id
-    games_by_id
   end
 
   def average_goals_by_id
