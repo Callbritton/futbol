@@ -27,6 +27,8 @@ class GameStatistics < FutbolData
   end
 
   def tally_goals(games)
+    # This helper method does not have a dedicated test.
+    # It is called in win_data, which does have a test.
     if games["home_goals"] > games["away_goals"]
       @game_outcomes[:home_games_won] += 1
     elsif games["home_goals"] < games["away_goals"]
