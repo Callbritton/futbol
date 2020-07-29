@@ -13,15 +13,6 @@ class SeasonStatistics < FutbolData
     get_team_name_by_id
   end
 
-  def create_coach_by_team_id(season)
-    @coach_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-    @all_game_teams.each do |game_by_team|
-      if game_by_team["game_id"][0..3] == season[0..3]
-        @coach_by_team_id[game_by_team["team_id"]] = game_by_team["head_coach"]
-      end
-    end
-  end
-
   def total_games_by_coach_by_season
     @total_games_by_coach = Hash.new{ |hash, key| hash[key] = 0}
     @by_season_game_team_objects.each do |game_by_season|
