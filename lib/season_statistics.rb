@@ -74,13 +74,13 @@ class SeasonStatistics < FutbolData
   def winningest_coach(season)
     winningest_and_worst_suite(season)
     max_team_id = @win_percentage.invert.max[1]
-    winningest_coach = @coach_by_team_id[max_team_id]
+    @coach_by_team_id[max_team_id]
   end
 
   def worst_coach(season)
     winningest_and_worst_suite(season)
     min_team_id = @win_percentage.invert.min[1]
-    worst_coach = @coach_by_team_id[min_team_id]
+    @coach_by_team_id[min_team_id]
   end
 
   def collect_game_team_objects_by_season(season)
