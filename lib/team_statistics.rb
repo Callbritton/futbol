@@ -63,12 +63,6 @@ class TeamStatistics < FutbolData
     (passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"])
   end
 
-  def win_percentage_by_season_by_team_id
-    @total_wins_by_season.each do |season, total_win|
-      @win_percentage_by_season[season] = (total_win.to_f / @total_games_by_season[season]).round(2)
-    end
-  end
-
   def best_and_worst_season_suite(passed_id)
     collect_game_objects_by_team_id(passed_id)
     total_games_by_season_by_team_id
