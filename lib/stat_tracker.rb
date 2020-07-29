@@ -132,10 +132,6 @@ class StatTracker < FutbolData
     @average_goals_per_season
   end
 # ============= league_statistics methods =============
-  def count_of_teams
-    @all_teams.size
-  end
-
   def offense_suite
     get_team_name_by_id
     average_goals_by_id
@@ -248,15 +244,6 @@ class StatTracker < FutbolData
     @team_name_by_id[lowest_scorer_at_home]
   end
 # ============= season_statistics methods =============
-  def create_coach_by_team_id(season)
-    @coach_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-    @all_game_teams.each do |game_by_team|
-      if game_by_team["game_id"][0..3] == season[0..3]
-        @coach_by_team_id[game_by_team["team_id"]] = game_by_team["head_coach"]
-      end
-    end
-  end
-
   def total_games_by_coach_by_season
     @total_games_by_coach = Hash.new{ |hash, key| hash[key] = 0}
     @by_season_game_team_objects.each do |game_by_season|
@@ -364,34 +351,6 @@ class StatTracker < FutbolData
     @team_name_by_id[@tackles_by_team_id.invert.min[1]]
   end
 # ============= team_statistics methods =============
-  def team_info(passed_id)
-    @team_info_by_id = Hash.new
-    @all_teams.each do |team|
-      if passed_id == team["team_id"]
-        assign_team_info(team)
-      end
-    end
-    @team_info_by_id
-  end
-
-  def assign_team_info(team)
-    @team_info_by_id["team_id"] = team["team_id"]
-    @team_info_by_id["franchise_id"] = team["franchiseId"]
-    @team_info_by_id["team_name"] = team["teamName"]
-    @team_info_by_id["abbreviation"] = team["abbreviation"]
-    @team_info_by_id["link"] = team["link"]
-  end
-
-  def collect_game_objects_by_team_id(passed_id)
-    @by_team_id_game_objects = []
-    @all_games.each do |game_object|
-      if game_object["home_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      elsif game_object["away_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      end
-    end
-  end
 
   def total_wins_by_season_by_team_id(passed_id)
     @by_team_id_game_objects.each do |game|
