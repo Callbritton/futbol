@@ -10,8 +10,6 @@ class SeasonStatisticsTest < Minitest::Test
     assert_instance_of SeasonStatistics, @season_statistics
   end
 
-  # Update tests for all new helpers excluding suite
-
   def test_it_can_print_best_coach_by_season
     assert_equal "Claude Julien", @season_statistics.winningest_coach("20132014")
     assert_equal "Alain Vigneault", @season_statistics.winningest_coach("20142015") # Team 3
@@ -35,5 +33,4 @@ class SeasonStatisticsTest < Minitest::Test
     assert_equal "Atlanta United", @season_statistics.fewest_tackles("20132014")
     assert_equal "Orlando City SC", @season_statistics.fewest_tackles("20142015")
   end
-
 end
