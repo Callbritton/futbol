@@ -19,13 +19,30 @@ class GameStatisticsTest < MiniTest::Test
   end
 
   def test_total_score
+    assert_equal 7441, @game_statistics.total_score.size
+  end
+
+  def test_win_data
+    assert_equal 1517, @game_statistics.win_data[:ties]
+  end
+
+  def test_highest_total_score
     assert_equal 11, @game_statistics.highest_total_score
+  end
+
+  def test_lowest_total_score
     assert_equal 0, @game_statistics.lowest_total_score
   end
 
-  def test_it_can_determine_percentages
+  def test_percentage_home_wins
     assert_equal 0.44, @game_statistics.percentage_home_wins
+  end
+
+  def test_percentage_vistor_wins
     assert_equal 0.36, @game_statistics.percentage_visitor_wins
+  end
+
+  def test_percentage_ties
     assert_equal 0.20, @game_statistics.percentage_ties
   end
 
