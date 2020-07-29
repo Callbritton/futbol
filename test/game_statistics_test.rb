@@ -1,7 +1,4 @@
-require "minitest/autorun"
-require "minitest/pride"
-require "./lib/game_statistics"
-require 'mocha/minitest'
+require "./test/test_helper"
 
 class GameStatisticsTest < MiniTest::Test
 

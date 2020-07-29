@@ -29,7 +29,8 @@ class StatTracker < FutbolData
     @all_games       = FutbolCreatable.object_creation("games")
     @all_teams       = FutbolCreatable.object_creation("teams")
     @all_game_teams  = FutbolCreatable.object_creation("game_teams")
-# =====game_statistics=====
+    get_team_name_by_id
+    # =====game_statistics=====
     @total_games = @all_games.size
     @total_goals_per_season = Hash.new{ |hash, key| hash[key] = 0 }
     # =====league_statistics=====
@@ -39,12 +40,9 @@ class StatTracker < FutbolData
     @average_goals_by_id = Hash.new{}
     @goals_by_away_id = Hash.new{ |hash, key| hash[key] = 0 }
     @goals_by_home_id = Hash.new{ |hash, key| hash[key] = 0 }
-    # =====season_statistics=====
-    @by_season_game_objects = []
-    @counter_wins_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-    @games_played_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
+    # =====season=====
     # =====team_statistics=====
-    get_team_name_by_id
+    team_data_object_creation
   end
 # ============= game_statistics methods =============
   def total_score
@@ -134,10 +132,6 @@ class StatTracker < FutbolData
     @average_goals_per_season
   end
 # ============= league_statistics methods =============
-  def count_of_teams
-    @all_teams.size
-  end
-
   def offense_suite
     get_team_name_by_id
     average_goals_by_id
@@ -204,117 +198,91 @@ class StatTracker < FutbolData
     @goals_by_home_id
   end
 
-  def goals_by_hoa_id_suite
-    goals_by_home_id
-    goals_by_away_id
-    get_team_name_by_id
-  end
-
-  def highest_scoring_visitor
-    goals_by_hoa_id_suite
+  def average_score_per_away_game_by_team_id
     @average_score_per_away_game = {}
     @goals_by_away_id.each do |away_team_id, goals|
       @average_score_per_away_game[away_team_id] = (goals.to_f / @games_by_away_id[away_team_id]).round(3)
     end
+  end
+
+  def average_score_per_home_game_by_team_id
+    @average_score_per_home_game = {}
+    @goals_by_home_id.each do |home_team_id, goals|
+      @average_score_per_home_game[home_team_id] = (goals.to_f / @games_by_home_id[home_team_id]).round(3)
+    end
+  end
+
+  def goals_by_hoa_id_suite
+    goals_by_home_id
+    goals_by_away_id
+    get_team_name_by_id
+    average_score_per_away_game_by_team_id
+    average_score_per_home_game_by_team_id
+  end
+
+  def highest_scoring_visitor
+    goals_by_hoa_id_suite
     highest_scorer_away = @average_score_per_away_game.invert.max[1]
     @team_name_by_id[highest_scorer_away]
   end
 
   def lowest_scoring_visitor
     goals_by_hoa_id_suite
-    @average_score_per_away_game = {}
-    @goals_by_away_id.each do |away_team_id, goals|
-      @average_score_per_away_game[away_team_id] = (goals.to_f / @games_by_away_id[away_team_id]).round(3)
-    end
     lowest_scorer_away = @average_score_per_away_game.invert.min[1]
     @team_name_by_id[lowest_scorer_away]
   end
 
   def highest_scoring_home_team
     goals_by_hoa_id_suite
-    @average_score_per_home_game = {}
-    @goals_by_home_id.each do |home_team_id, goals|
-      @average_score_per_home_game[home_team_id] = (goals.to_f / @games_by_home_id[home_team_id]).round(3)
-    end
     highest_scorer_at_home = @average_score_per_home_game.invert.max[1]
     @team_name_by_id[highest_scorer_at_home]
   end
 
   def lowest_scoring_home_team
     goals_by_hoa_id_suite
-    @average_score_per_home_game = {}
-    @goals_by_home_id.each do |home_team_id, goals|
-      @average_score_per_home_game[home_team_id] = (goals.to_f / @games_by_home_id[home_team_id]).round(3)
-    end
     lowest_scorer_at_home = @average_score_per_home_game.invert.min[1]
     @team_name_by_id[lowest_scorer_at_home]
   end
 # ============= season_statistics methods =============
-  def create_coach_by_team_id
-    @coach_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
-    @all_game_teams.each do |game_by_team|
-      @coach_by_team_id[game_by_team["team_id"]] = game_by_team["head_coach"]
+  def total_games_by_coach_by_season
+    @total_games_by_coach = Hash.new{ |hash, key| hash[key] = 0}
+    @by_season_game_team_objects.each do |game_by_season|
+      @total_games_by_coach[game_by_season["head_coach"]] += 1
     end
   end
 
-  def collect_game_objects_by_season(season)
-    @all_games.each do |game_object|
-      if season == game_object["season"]
-        @by_season_game_objects << game_object
+  def total_wins_by_coach_by_season
+    @total_wins_by_coach = Hash.new{ |hash, key| hash[key] = 0}
+    @by_season_game_team_objects.each do |game_by_season|
+      if game_by_season["result"] == "WIN"
+        @total_wins_by_coach[game_by_season["head_coach"]] += 1
       end
     end
   end
 
-  def total_games_played_by_season(game)
-    @games_played_by_team_id[game["away_team_id"]] += 1
-    @games_played_by_team_id[game["home_team_id"]] += 1
-  end
-
-  def total_wins_for_home(game)
-    @counter_wins_team_id[game["home_team_id"]] += 1
-    @counter_wins_team_id[game["away_team_id"]] += 0
-  end
-
-  def total_wins_for_away(game)
-    @counter_wins_team_id[game["away_team_id"]] += 1
-    @counter_wins_team_id[game["home_team_id"]] += 0
-  end
-
-  def total_wins_by_season
-    @by_season_game_objects.each do |season_game_object|
-      total_games_played_by_season(season_game_object)
-      if season_game_object["home_goals"] > season_game_object["away_goals"]
-        total_wins_for_home(season_game_object)
-      elsif season_game_object["away_goals"] > season_game_object["home_goals"]
-        total_wins_for_away(season_game_object)
-      end
-    end
-  end
-
-  def win_percentage_by_season
-    @win_percentage = {}
-    @games_played_by_team_id.each do |id, total_games|
-      @win_percentage[id] = (@counter_wins_team_id[id].to_f / total_games).round(3)
+  def win_percentage_by_coach_by_season
+    @win_percentage_by_coach = {}
+    @total_games_by_coach.each do |coach, total_games|
+      @win_percentage_by_coach[coach] = (@total_wins_by_coach[coach].to_f / total_games).round(3)
     end
   end
 
   def winningest_and_worst_suite(season)
-    create_coach_by_team_id
-    collect_game_objects_by_season(season)
-    total_wins_by_season
-    win_percentage_by_season
+    collect_game_team_objects_by_season(season)
+    create_coach_by_team_id(season)
+    total_games_by_coach_by_season
+    total_wins_by_coach_by_season
+    win_percentage_by_coach_by_season
   end
 
   def winningest_coach(season)
     winningest_and_worst_suite(season)
-    max_team_id = @win_percentage.invert.max[1]
-    @coach_by_team_id[max_team_id]
+    @win_percentage_by_coach.invert.max[1]
   end
 
   def worst_coach(season)
     winningest_and_worst_suite(season)
-    min_team_id = @win_percentage.invert.min[1]
-    @coach_by_team_id[min_team_id]
+    @win_percentage_by_coach.invert.min[1]
   end
 
   def collect_game_team_objects_by_season(season)
@@ -383,58 +351,25 @@ class StatTracker < FutbolData
     @team_name_by_id[@tackles_by_team_id.invert.min[1]]
   end
 # ============= team_statistics methods =============
-  def team_info(passed_id)
-    @team_info_by_id = Hash.new
-    @all_teams.each do |team|
-      if passed_id == team["team_id"] # Remove  when spec harness info updates
-        @team_info_by_id["team_id"] = team["team_id"]
-        @team_info_by_id["franchise_id"] = team["franchiseId"]
-        @team_info_by_id["team_name"] = team["teamName"]
-        @team_info_by_id["abbreviation"] = team["abbreviation"]
-        @team_info_by_id["link"] = team["link"]
-      end
-    end
-    @team_info_by_id
-  end
-
-  def collect_game_objects_by_team_id(passed_id)
-    @by_team_id_game_objects = []
-    @all_games.each do |game_object|
-      if game_object["home_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      elsif game_object["away_team_id"] == passed_id
-        @by_team_id_game_objects << game_object
-      end
-    end
-  end
-
-  def total_games_by_season_by_team_id
-    @total_games_by_season = Hash.new{ |hash, key| hash[key] = 0 }
-    @by_team_id_game_objects.each do |game|
-      @total_games_by_season[game["season"]] += 1
-    end
-  end
 
   def total_wins_by_season_by_team_id(passed_id)
-    @total_wins_by_season = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
-      if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
+      if helper_for_win_count(passed_id, game)
         @total_wins_by_season[game["season"]] += 1
-      elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
-        @total_wins_by_season[game["season"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @total_wins_by_season[game["season"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
+      elsif helper_for_loss_count(passed_id, game)
         @total_wins_by_season[game["season"]] += 0
       end
     end
   end
 
-  def win_percentage_by_season_by_team_id
-    @win_percentage_by_season = Hash.new
-    @total_wins_by_season.each do |season, total_win|
-      @win_percentage_by_season[season] = (total_win.to_f / @total_games_by_season[season]).round(2)
-    end
+  def helper_for_win_count(passed_id, game)
+    (passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]) ||
+    (passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"])
+  end
+
+  def helper_for_loss_count(passed_id, game)
+    (passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]) ||
+    (passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"])
   end
 
   def best_and_worst_season_suite(passed_id)
@@ -455,18 +390,20 @@ class StatTracker < FutbolData
   end
 
   def sort_games_won_by_team_id(passed_id)
-    @games_won_by_team_id = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
         @games_won_by_team_id[game["away_team_id"]] += 1
       elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
         @games_won_by_team_id[game["home_team_id"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @games_won_by_team_id[game["away_team_id"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
-        @games_won_by_team_id[game["home_team_id"]] += 0
+      elsif helper_for_loss_count(passed_id, game)
+        helper_counter_for_loss(game)
       end
     end
+  end
+
+  def helper_counter_for_loss(game)
+    @games_won_by_team_id[game["away_team_id"]] += 0
+    @games_won_by_team_id[game["home_team_id"]] += 0
   end
 
   def average_win_suite(passed_id)
@@ -505,7 +442,6 @@ class StatTracker < FutbolData
   end
 
   def games_played_by_opponent_by_team(passed_id)
-    @games_played_by_opponent = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"]
         @games_played_by_opponent[game["home_team_id"]] += 1
@@ -516,24 +452,12 @@ class StatTracker < FutbolData
   end
 
   def games_won_by_opponent_by_team(passed_id)
-    @games_won_by_opponent = Hash.new{ |hash, key| hash[key] = 0 }
     @by_team_id_game_objects.each do |game|
       if passed_id == game["away_team_id"] && game["away_goals"] > game["home_goals"]
         @games_won_by_opponent[game["home_team_id"]] += 1
       elsif passed_id == game["home_team_id"] && game["home_goals"] > game["away_goals"]
         @games_won_by_opponent[game["away_team_id"]] += 1
-      elsif passed_id == game["away_team_id"] && game["away_goals"] < game["home_goals"]
-        @games_won_by_opponent[game["home_team_id"]] += 0
-      elsif passed_id == game["home_team_id"] && game["home_goals"] < game["away_goals"]
-        @games_won_by_opponent[game["away_team_id"]] += 0
       end
-    end
-  end
-
-  def win_ratio_by_opponent_by_team
-    @win_ratio_by_opponent = Hash.new
-    @games_won_by_opponent.each do |opponent, wins_against_opp|
-      @win_ratio_by_opponent[opponent] = (wins_against_opp.to_f / @games_played_by_opponent[opponent]).round(2)
     end
   end
 

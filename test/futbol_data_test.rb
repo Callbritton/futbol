@@ -1,7 +1,8 @@
-require "minitest/autorun"
-require "minitest/pride"
-require "./lib/futbol_data"
-require 'mocha/minitest'
+# require "minitest/autorun"
+# require "minitest/pride"
+# require "./lib/futbol_data"
+# require "mocha/minitest"
+require "./test/test_helper"
 
 class FutbolDataTest < Minitest::Test
 
