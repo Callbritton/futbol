@@ -8,7 +8,19 @@ module Helpable
     @team_name_by_id
   end
 
+  def league_data_object_creation
+    get_team_name_by_id
+    @goals_by_away_id = Hash.new{ |hash, key| hash[key] = 0 }
+    @goals_by_home_id = Hash.new{ |hash, key| hash[key] = 0 }
+    @average_goals_by_id = Hash.new{}
+    @average_score_per_away_game = {}
+    @average_score_per_home_game = {}
+    @games_by_away_id = Hash.new{ |hash, key| hash[key] = 0 }
+    @games_by_home_id = Hash.new{ |hash, key| hash[key] = 0 }
+  end
+
   def team_data_object_creation
+    get_team_name_by_id
     @total_wins_by_season = Hash.new{ |hash, key| hash[key] = 0 }
     @total_games_by_season = Hash.new{ |hash, key| hash[key] = 0 }
     @win_ratio_by_opponent = Hash.new
